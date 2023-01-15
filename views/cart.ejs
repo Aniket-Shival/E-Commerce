@@ -1,0 +1,104 @@
+<%- include('_doctype.ejs') %>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
+    <!-- JavaScript Bundle with Popper -->
+    <script src="//checkout.stripe.com/v2/checkout.js"defer></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch" defer></script>
+    <script src="https://js.stripe.com/v3/" defer></script>
+
+    <title>Document</title>
+    </head>
+
+    <body style="background-color:#0F3D3E;">
+
+        <%- include('_navbr.ejs') %>
+            <h1 class="mt-3 ms-5" style="color:#F1F1F1">Cart</h1>
+            <div class="container">
+     <div class=" mt-3 d-inline-block " >
+        <% var Total = 0 %> 
+                <% data.forEach(cart=>{ %>
+                   <% for (let i = 0; i < cart.name.length; i++) { %>
+
+
+
+
+                    
+   
+             <div  >
+                <h1 style="color:#E2DCC8 ;" class="card-title">
+                    <%= cart.name[i] %>
+                </h1>
+                <hr>
+                <h3 class="card-text " style="color:#000000">
+                   Quantity : <%= cart.quantity[i] %>
+                </h3>
+                
+                <h3 class="card-text " style="color:#000000">
+                   Price : ₹ <%= cart.price[i] %>
+                </h3>
+                
+                <h3 class="card-text " style="color:#000000">Sub total : ₹ <%= cart.price[i] * cart.quantity[i] %>
+                    <% var total = cart.price[i] * cart.quantity[i] %> 
+              </h3>
+           </div>
+
+
+                  
+
+            <div class=" my-5">
+                <form method="post" action="buy">
+                  
+                <input type="hidden" name="username" value="<%=user.username  %> ">
+                <input type="hidden" name="useraddress" value="<%=user.useraddress  %> ">
+                <input type="hidden" name="useremail" value="<%=user.useremail  %> ">
+                <input type="hidden" name="userphone" value="<%=user.userphone  %> ">
+                <input type="hidden" name="name" value="<%=cart.name %> ">
+                <input type="hidden" name="quantity" value="<%=cart.quantity  %> ">  
+                <input type="hidden" name="price" value="<%=cart.price  %> ">  
+                <input type="hidden" name="data-key" value="<%= key  %> ">   
+                
+                
+                <% Total = total + Total  %> 
+               
+
+                <% } %>
+                 <hr>
+                <h3 style="color:#E2DCC8 ;">Total Price = ₹ <%= Total  %> </h3>
+
+                 <% }) %>
+
+               
+
+                 <input type="hidden" name="total" value="<%= Total %> ">
+                        <button type="submit" class="btn mt-3 btn-primary px-5">Buy</button>
+                        </form>
+
+
+                        <% data.forEach(cart=>{ %>
+                        <form method="post" action="remove">
+                         
+                            <div class="card-body ul my-4">
+                                <input type="hidden" name="name" value="<%=cart.name  %> ">
+                                <input type="hidden" name="price" value="<%=cart.price  %> ">
+                                <button type="submit " class="btn btn-danger pe-4 ">Empty Cart</button>
+                            </div>   
+                            </form>
+                              
+                          
+                              
+                          <% }) %> 
+                      
+
+            </div>
+
+
+
+
+
+     </div>
+    </div>
+
+    </body>
+
+    </html>
